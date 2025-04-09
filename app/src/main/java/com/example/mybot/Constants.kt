@@ -1,6 +1,7 @@
 package com.example.mybot
 
-object Constants {
+import com.example.mybot.BuildConfig
 
-    val apikey = "AIzaSyAIS3P-nsDF0MLYx0m1g0DbxVG0A_skjTk"
+object Constants {
+     val apiKey = BuildConfig.GEMINI_API_KEY
 }

@@ -8,14 +8,26 @@ android {
     namespace = "com.example.mybot"
     compileSdk = 35
 
+    // ✅ Read GEMINI_API_KEY from local.properties manually
+    val geminiKey: String? = rootProject.file("local.properties")
+        .readLines()
+        .firstOrNull { it.startsWith("GEMINI_API_KEY=") }
+        ?.substringAfter("=")
+
     defaultConfig {
         applicationId = "com.example.mybot"
-        minSdk = 33
+        minSdk = 35
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // ✅ Add build config field for Gemini API key
+        if (geminiKey != null) {
+            buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
+        } else {
+            throw GradleException("GEMINI_API_KEY not found in local.properties")
+        }
     }
 
     buildTypes {
@@ -27,20 +39,23 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
