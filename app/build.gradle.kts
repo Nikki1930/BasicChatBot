@@ -22,13 +22,9 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // ✅ Add build config field for Gemini API key
-        if (geminiKey != null) {
-            buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
-        } else {
-            throw GradleException("GEMINI_API_KEY not found in local.properties")
-        }
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
     }
+
 
     buildTypes {
         release {
